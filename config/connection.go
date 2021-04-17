@@ -17,7 +17,7 @@ var HOST = "localhost"
 var PORT = 27017
 
 /*mongoCnx es el objeto de conexión a la BD */
-var mongoCnx = ConnectionDB()
+var MongoCnx = ConnectionDB()
 var clientOptions = options.Client().ApplyURI(fmt.Sprintf("mongodb://%s:%d", HOST, PORT))
 
 /*Función que permite conectar la BD*/
@@ -40,7 +40,7 @@ func ConnectionDB() *mongo.Client {
 
 /*Función que es el Ping a la BD*/
 func CheckConnection() int {
-	err := mongoCnx.Ping(context.TODO(), nil)
+	err := MongoCnx.Ping(context.TODO(), nil)
 	if err != nil {
 		return 0
 	}

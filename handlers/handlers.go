@@ -5,12 +5,17 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/IsaiasMorochi/twitter-clone-backend/middleware"
+	"github.com/IsaiasMorochi/twitter-clone-backend/routers"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
 )
 
+/*Manejadores seteo mi puerto, el handler y pongo a escuchar el servidor*/
 func Manejadores() {
 	router := mux.NewRouter()
+
+	router.HandleFunc("/register", middleware.CheckCnx(routers.PostUser)).Methods("POST")
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
