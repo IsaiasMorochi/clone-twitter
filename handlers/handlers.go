@@ -16,6 +16,7 @@ func Manejadores() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/register", middleware.CheckCnx(routers.PostUser)).Methods("POST")
+	router.HandleFunc("/login", middleware.CheckCnx(routers.Login)).Methods("POST")
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
