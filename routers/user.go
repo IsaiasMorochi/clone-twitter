@@ -42,5 +42,29 @@ func PostUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusCreated)
+}
 
+func PutUser(w http.ResponseWriter, r *http.Request) {
+
+	var user models.Users
+
+	// leemos el body y lo asignamos a la variable user
+	err := json.NewDecoder(r.Body).Decode(&user)
+	if err != nil {
+		http.Error(w, "Datos incorrectos "+err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	status, err := dao.Put(user, IDUser)
+	if err != nil {
+		http.Error(w, "Ocurrió un error alintentar modificar el registro, reintente nuevamente "+err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	if !status {
+		http.Error(w, "No se ha logrado modificar el registro del usuario", http.StatusBadRequest)
+		return
+	}
+
+	w.WriteHeader(http.StatusAccepted)
 }

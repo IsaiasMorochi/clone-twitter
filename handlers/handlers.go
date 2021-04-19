@@ -18,6 +18,7 @@ func Manejadores() {
 	router.HandleFunc("/register", middleware.CheckCnx(routers.PostUser)).Methods("POST")
 	router.HandleFunc("/login", middleware.CheckCnx(routers.Login)).Methods("POST")
 	router.HandleFunc("/view-profile", middleware.CheckCnx(middleware.Validate(routers.ViewProfile))).Methods("GET")
+	router.HandleFunc("/update-profile", middleware.CheckCnx(middleware.Validate(routers.PutUser))).Methods("PUT")
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
