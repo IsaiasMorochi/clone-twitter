@@ -68,3 +68,21 @@ func GetTweet(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(result)
 }
+
+func DeleteTweet(w http.ResponseWriter, r *http.Request) {
+
+	ID := r.URL.Query().Get("id")
+	if len(ID) < 1 {
+		http.Error(w, "Debe enviar el parámetro id", http.StatusBadRequest)
+		return
+	}
+
+	err := dao.DeleteTweet(ID, IDUser)
+	if err != nil {
+		http.Error(w, "Ocurrió un error al intentar borrar el tweet "+err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	w.Header().Set("Content-type", "application/json")
+	w.WriteHeader(http.StatusNoContent)
+}

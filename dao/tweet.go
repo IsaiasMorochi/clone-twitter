@@ -2,6 +2,7 @@ package dao
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"time"
 
@@ -61,6 +62,8 @@ func GetTweet(UserId string, page int64) ([]*models.ReadTweets, bool) {
 		return results, false
 	}
 
+	fmt.Println("ok" + err.Error() + " cr")
+
 	for cursor.Next(context.TODO()) {
 		var register models.ReadTweets
 		err := cursor.Decode(&register)
@@ -71,4 +74,22 @@ func GetTweet(UserId string, page int64) ([]*models.ReadTweets, bool) {
 	}
 
 	return results, true
+}
+
+func DeleteTweet(IDTweet string, UserID string) error {
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
+	defer cancel()
+
+	db := config.MongoCnx.Database("clone-twitter")
+	collection := db.Collection("tweet")
+
+	objID, _ := primitive.ObjectIDFromHex(IDTweet) // convierte el ID en un OBJECTID
+
+	conditions := bson.M{
+		"_id":    objID,
+		"userid": UserID,
+	}
+
+	_, err := collection.DeleteOne(ctx, conditions)
+	return err
 }
