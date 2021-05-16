@@ -20,6 +20,7 @@ func Manejadores() {
 	router.HandleFunc("/view-profile", middleware.CheckCnx(middleware.Validate(routers.ViewProfile))).Methods("GET")
 	router.HandleFunc("/update-profile", middleware.CheckCnx(middleware.Validate(routers.PutUser))).Methods("PUT")
 	router.HandleFunc("/tweet", middleware.CheckCnx(middleware.Validate(routers.PostTweet))).Methods("POST")
+	router.HandleFunc("/read-tweet", middleware.CheckCnx(middleware.Validate(routers.GetTweet))).Methods("GET")
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
